@@ -16968,6 +16968,7 @@ function completeTokenFlow(hash){
 }
 
 function completeCodeFlow(params){
+	console.info('completeCodeFlow-->' + JSON.stringify(params));
   if (!params){
     params = {
       code: urlParam('code'),
@@ -17024,6 +17025,7 @@ function completeCodeFlow(params){
     data: data,
     headers: headers
   }).then(function(authz){
+	  console.info('authz-->' + authz);
        for (var i in params) {
           if (params.hasOwnProperty(i)) {
              authz[i] = params[i];
