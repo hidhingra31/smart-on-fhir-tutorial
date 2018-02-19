@@ -17200,8 +17200,10 @@ BBClient.ready = function(input, callback, errback){
         accessTokenResolver = completePageReload();
       }
     } else if (isCode) { // code flow
+	    console.info('Code flow ->' + isCode);
       accessTokenResolver = completeCodeFlow(args.input);
     } else { // token flow
+	    console.info('Token flow ->' + isCode);
       accessTokenResolver = completeTokenFlow(args.input);
     }
   }
