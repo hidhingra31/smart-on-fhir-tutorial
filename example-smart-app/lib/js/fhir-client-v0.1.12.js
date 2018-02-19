@@ -17025,7 +17025,7 @@ function completeCodeFlow(params){
     data: data,
     headers: headers
   }).then(function(authz){
-	  console.info('authz-->' + authz);
+	  console.info('authz-->' + JSON.stringify(authz));
        for (var i in params) {
           if (params.hasOwnProperty(i)) {
              authz[i] = params[i];
