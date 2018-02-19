@@ -17018,7 +17018,8 @@ function completeCodeFlow(params){
   } else {
     data['client_id'] = state.client.client_id;
   }
-
+  console.info('data-->' + JSON.stringify(data));
+	console.info('state.provider.oauth2.token_uri-->' + JSON.stringify(state.provider.oauth2.token_uri));
   Adapter.get().http({
     method: 'POST',
     url: state.provider.oauth2.token_uri,
