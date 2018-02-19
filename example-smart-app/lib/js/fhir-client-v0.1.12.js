@@ -17165,7 +17165,8 @@ function isFakeOAuthToken(){
 BBClient.ready = function(input, callback, errback){
 
   var args = readyArgs.apply(this, arguments);
-
+  console.info("Ready -->" + JSON.stringify(args));
+	
   // decide between token flow (implicit grant) and code flow (authorization code grant)
   var isCode = urlParam('code') || (args.input && args.input.code);
 
@@ -17187,6 +17188,7 @@ BBClient.ready = function(input, callback, errback){
     if (validTokenResponse()) { // we're reloading after successful completion
       // Check if 2 minutes from access token expiration timestamp
       var tokenResponse = getPreviousToken();
+	    console.info("tokenResponse -->" + tokenResponse);
       var payloadCheck = jwt.decode(tokenResponse.access_token);
       var nearExpTime = Math.floor(Date.now() / 1000) >= (payloadCheck['exp'] - 120);
 
@@ -17430,7 +17432,7 @@ BBClient.authorize = function(params, errback){
 };
 
 BBClient.resolveAuthType = function (fhirServiceUrl, callback, errback) {
-
+     console.info("fhirServiceUrl -->" + fhirServiceUrl);
       Adapter.get().http({
          method: "GET",
          url: stripTrailingSlash(fhirServiceUrl) + "/metadata"
