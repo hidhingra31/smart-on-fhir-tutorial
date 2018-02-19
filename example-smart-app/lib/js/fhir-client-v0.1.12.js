@@ -17424,6 +17424,7 @@ BBClient.authorize = function(params, errback){
        redirect_to += "&launch="+encodeURIComponent(client.launch);
     }
      console.info("abhishekkkkkkkkkkkkkkkkkkkk" + redirect_to);
+	  
     window.location.href = redirect_to;
   }, errback);
 };
