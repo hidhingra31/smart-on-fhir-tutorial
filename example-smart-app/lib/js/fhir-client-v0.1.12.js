@@ -17465,6 +17465,7 @@ Object.keys(clientUtils).forEach(function(k){
 });
 
 function FhirClient(p) {
+	console.info("FhirClient -->" + JSON.stringify(p));
   // p.serviceUrl
   // p.auth {
     //    type: 'none' | 'basic' | 'bearer'
