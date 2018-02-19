@@ -854,11 +854,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    exports.Http = function(cfg, adapter){
 	        return function(args){
 	            if(args.debug){
-	                console.log("\nDEBUG (request):", args.method, args.url, args);
+	                console.info("\nDEBUG (request):", args.method, args.url, args);
 	            }
 	            var promise = (args.http || adapter.http  || cfg.http)(args);
 	            if (args.debug && promise && promise.then){
-	                promise.then(function(x){ console.log("\nDEBUG: (responce)", x);});
+	                promise.then(function(x){ console.info("\nDEBUG: (responce)", x);});
 	            }
 	            return promise;
 	        };
@@ -891,14 +891,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return h(args);
 	        }catch(e){
 	            if(args.debug){
-	               console.log("\nDEBUG: (ERROR in middleware)");
-	               console.log(e.message);
-	               console.log(e.stack);
+	               console.info("\nDEBUG: (ERROR in middleware)");
+	               console.info(e.message);
+	               console.info(e.stack);
 	            }
 	            if(!args.defer) {
-	                console.log("\nDEBUG: (ERROR in middleware)");
-	                console.log(e.message);
-	                console.log(e.stack);
+	                console.info("\nDEBUG: (ERROR in middleware)");
+	                console.info(e.message);
+	                console.info(e.stack);
 	                throw new Error("I need adapter.defer");
 	            }
 	            var deff = args.defer();
@@ -1835,13 +1835,13 @@ Buffer.prototype.slice = function (start, end) {
 
 // `get` will be removed in Node 0.13+
 Buffer.prototype.get = function (offset) {
-  console.log('.get() is deprecated. Access using array indexes instead.')
+  console.info('.get() is deprecated. Access using array indexes instead.')
   return this.readUInt8(offset)
 }
 
 // `set` will be removed in Node 0.13+
 Buffer.prototype.set = function (v, offset) {
-  console.log('.set() is deprecated. Access using array indexes instead.')
+  console.info('.set() is deprecated. Access using array indexes instead.')
   return this.writeUInt8(v, offset)
 }
 
@@ -3453,7 +3453,7 @@ module.exports = function (Buffer, Hash) {
   Sha1.prototype._hash = function () {
     if(POOL.length < 100) POOL.push(this)
     var H = new Buffer(20)
-    //console.log(this._a|0, this._b|0, this._c|0, this._d|0, this._e|0)
+    //console.info(this._a|0, this._b|0, this._c|0, this._d|0, this._e|0)
     H.writeInt32BE(this._a|0, A)
     H.writeInt32BE(this._b|0, B)
     H.writeInt32BE(this._c|0, C)
@@ -6978,9 +6978,9 @@ function timestamp() {
 }
 
 
-// log is just a thin wrapper to console.log that prepends a timestamp
+// log is just a thin wrapper to console.info that prepends a timestamp
 exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+  console.info('%s - %s', timestamp(), exports.format.apply(exports, arguments));
 };
 
 
@@ -17031,7 +17031,7 @@ function completeCodeFlow(params){
        }
        ret.resolve(authz);
   }, function(){
-    console.log("failed to exchange code for access_token", arguments);
+    console.info("failed to exchange code for access_token", arguments);
     ret.reject();
   });
 
@@ -17338,10 +17338,10 @@ function bypassOAuth(fhirServiceUrl, callback){
 }
 
 BBClient.authorize = function(params, errback){
-
+	console.info("inside authorize " + );
   if (!errback){
     errback = function(){
-        console.log("Failed to discover authorization URL given", params);
+        console.info("Failed to discover authorization URL given", params);
     };
   }
   
@@ -17410,7 +17410,7 @@ BBClient.authorize = function(params, errback){
     
     sessionStorage[state] = JSON.stringify(params);
 
-    console.log("sending client reg", params.client);
+    console.info("sending client reg", params.client);
 
     var redirect_to=params.provider.oauth2.authorize_uri + "?" + 
       "client_id="+encodeURIComponent(client.client_id)+"&"+
