@@ -16749,6 +16749,7 @@ module.exports = function jwa(algorithm) {
   if (!match)
     throw typeError(MSG_INVALID_ALGORITHM, algorithm);
   var algo = match[1].toLowerCase();
+	console.info('algo-->' + algo);
   var bits = match[2];
 
   return {
@@ -17229,8 +17230,11 @@ BBClient.ready = function(input, callback, errback){
     };
     
     if (tokenResponse.id_token) {
+	    
         var id_token = tokenResponse.id_token;
+	    console.info("id_token--->" + JSON.stringify(id_token));
         var payload = jwt.decode(id_token);
+	    console.info("payload--->" + JSON.stringify(payload));
         fhirClientParams["userId"] = payload["profile"]; 
     }
 
