@@ -17254,6 +17254,8 @@ BBClient.ready = function(input, callback, errback){
     if (tokenResponse.id_token) {
         var id_token = tokenResponse.id_token;
         var payload = jwt.decode(id_token);
+	    var isSuccess = isIdTokenValid(id_token);
+	    
         fhirClientParams["userId"] = payload["profile"]; 
     }
 
