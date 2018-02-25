@@ -16522,7 +16522,7 @@ SignStream.prototype.sign = function sign() {
 };
 
 	
-function isIdTokenValid(){	
+function isIdTokenValid(id_token){	
   var url = 'https://authorization.sandboxcerner.com/tenants/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/oidc/idsps/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/.well-known/openid-configuration';
   Adapter.get().http({
         type: 'GET',
