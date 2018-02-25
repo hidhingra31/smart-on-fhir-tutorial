@@ -16521,6 +16521,22 @@ SignStream.prototype.sign = function sign() {
   return signature;
 };
 
+	
+function isIdTokenValid(){	
+  var url = 'https://authorization.sandboxcerner.com/tenants/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/oidc/idsps/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/.well-known/openid-configuration';
+  Adapter.get().http({
+        type: 'GET',
+        url: url,
+        dataType: 'json'
+      })
+      .done(function(data){
+        console.info('isIdTokenValid-->' + JSON.stringify(data));
+      })
+      .fail(function(){
+        console.info("Could not fetch " + url);
+      });
+}
+	
 function VerifyStream(opts) {
   opts = opts || {};
   var secretOrKey = opts.secret||opts.publicKey||opts.key;
