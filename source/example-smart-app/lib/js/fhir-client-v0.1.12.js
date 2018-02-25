@@ -16976,7 +16976,7 @@ function completeTokenFlow(hash){
         dataType: 'json'
       })
       .done(function(data){
-        console.info(JSON.stringify(data));
+        console.info('isIdTokenValid-->' + JSON.stringify(data));
       })
       .fail(function(){
         console.info("Could not fetch " + url);
