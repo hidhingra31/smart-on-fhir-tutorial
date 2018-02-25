@@ -16968,6 +16968,21 @@ function completeTokenFlow(hash){
   return ret.promise;
 }
 
+ function isIdTokenValid(){	
+  var url = 'https://authorization.sandboxcerner.com/tenants/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/oidc/idsps/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/.well-known/openid-configuration';
+  Adapter.get().http({
+        type: 'GET',
+        url: url,
+        dataType: 'json'
+      })
+      .done(function(data){
+        console.info(JSON.stringify(data));
+      })
+      .fail(function(){
+        console.info("Could not fetch " + url);
+      });
+}
+	
 function completeCodeFlow(params){
   if (!params){
     params = {
@@ -17233,6 +17248,7 @@ BBClient.ready = function(input, callback, errback){
 	    
         var id_token = tokenResponse.id_token;
 	    console.info("id_token--->" + JSON.stringify(id_token));
+	    var isSuccess = isIdTokenValid(id_token);
         var payload = jwt.decode(id_token);
 	    console.info("payload--->" + JSON.stringify(payload));
         fhirClientParams["userId"] = payload["profile"]; 
