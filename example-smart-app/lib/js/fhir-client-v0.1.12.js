@@ -16520,22 +16520,6 @@ SignStream.prototype.sign = function sign() {
   this.readable = false;
   return signature;
 };
-
-	
-function isIdTokenValid(id_token){	
-  var url = 'https://authorization.sandboxcerner.com/tenants/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/oidc/idsps/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/.well-known/openid-configuration';
-  Adapter.get().http({
-        type: 'GET',
-        url: url,
-        dataType: 'json'
-      })
-      .done(function(data){
-        console.info('isIdTokenValid-->' + JSON.stringify(data));
-      })
-      .fail(function(){
-        console.info("Could not fetch " + url);
-      });
-}
 	
 function VerifyStream(opts) {
   opts = opts || {};
@@ -16960,6 +16944,21 @@ function getPreviousToken(){
   }
 }
 
+function isIdTokenValid(id_token){	
+  var url = 'https://authorization.sandboxcerner.com/tenants/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/oidc/idsps/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/.well-known/openid-configuration';
+  Adapter.get().http({
+        type: 'GET',
+        url: url,
+        dataType: 'json'
+      })
+      .done(function(data){
+        console.info('isIdTokenValid-->' + JSON.stringify(data));
+      })
+      .fail(function(){
+        console.info("Could not fetch " + url);
+      });
+}
+	
 function completeTokenFlow(hash){
   if (!hash){
     hash = window.location.hash;
