@@ -16945,14 +16945,15 @@ function getPreviousToken(){
 }
 
 function isIdTokenValid(id_token){	
-  var url = 'https://authorization.sandboxcerner.com/tenants/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/oidc/idsps/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca/.well-known/openid-configuration';
-  Adapter.get().http({
+ 
+var url = 'https://sb-fhir-dstu2.smarthealthit.org/.well-known/openid-configuration';
+  Adapter.get().http(client.authenticated({
         type: 'GET',
         url: url,
         dataType: 'json'
-      })
+      }))
       .done(function(data){
-        console.info('isIdTokenValid-->' + JSON.stringify(data));
+        console.info(JSON.stringify(data));
       })
       .fail(function(){
         console.info("Could not fetch " + url);
