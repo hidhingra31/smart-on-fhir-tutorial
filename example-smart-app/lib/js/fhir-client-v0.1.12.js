@@ -6,7 +6,6 @@
 		define([], factory);
 	else if(typeof exports === 'object')
 		exports["fhir"] = factory();
-	else
 		root["fhir"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
@@ -16946,7 +16945,7 @@ function getPreviousToken(){
 
 function isIdTokenValid(id_token){	
  
-var url = 'https://sb-fhir-dstu2.smarthealthit.org/.well-known/openid-configuration';
+var url = 'https://sb-auth.smarthealthit.org/.well-known/openid-configuration';
   Adapter.get().http({
         type: 'GET',
         url: url,
