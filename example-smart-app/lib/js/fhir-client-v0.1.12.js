@@ -16971,8 +16971,8 @@ function getJWKSUri(jsonDataURI){
       })
       .done(function(data){
 	var jsonData = JSON.parse(JSON.stringify(data));
-	console.info(JSON.stringify(data) + '-' + jsonData["keys"]["n"] + '-' + jsonData["keys"]["kty"]);
-	 var nValue = jsonData["keys"]["n"];
+	console.info(JSON.stringify(data) + '-' + jsonData.keys[0].n + '-' + jsonData.keys[0].kty);
+	 var nValue = jsonData.keys[0].n;
 	
 	document.getElementById("n_value").innerHTML = nValue; 
       })
