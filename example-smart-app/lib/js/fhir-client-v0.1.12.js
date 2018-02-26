@@ -16952,7 +16952,8 @@ var url = 'https://sb-auth.smarthealthit.org/.well-known/openid-configuration';
         dataType: 'json'
       })
       .done(function(data){
-	var jsonData = JSON.parse(data);
+	  console.info(JSON.stringify(data));
+	var jsonData = JSON.parse(JSON.stringify(data));
 	var jsonDataURI = jsonData["jwks_uri"]
 	console.info(jsonDataURI);
 	document.getElementById("jwks_uri_value").innerHTML = jsonDataURI; 
