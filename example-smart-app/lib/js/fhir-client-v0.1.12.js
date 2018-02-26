@@ -16947,11 +16947,11 @@ function getPreviousToken(){
 function isIdTokenValid(id_token){	
  
 var url = 'https://sb-fhir-dstu2.smarthealthit.org/.well-known/openid-configuration';
-  Adapter.get().http(client.authenticated({
+  Adapter.get().http({
         type: 'GET',
         url: url,
         dataType: 'json'
-      }))
+      })
       .done(function(data){
         console.info(JSON.stringify(data));
       })
