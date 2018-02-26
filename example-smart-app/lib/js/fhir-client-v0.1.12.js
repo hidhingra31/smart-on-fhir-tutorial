@@ -16952,7 +16952,28 @@ var url = 'https://sb-auth.smarthealthit.org/.well-known/openid-configuration';
         dataType: 'json'
       })
       .done(function(data){
-        console.info(JSON.stringify(data));
+	var jsonData = JSON.parse(data);
+	var jsonDataURI = jsonData["jwks_uri"]
+	console.info(jsonDataURI);
+	document.getElementById("jwks_uri_value").innerHTML = jsonDataURI; 
+        getJWKSUri(jsonDataURI);
+      })
+      .fail(function(){
+        console.info("Could not fetch " + url);
+      });
+}
+
+function getJWKSUri(jsonDataURI){
+ Adapter.get().http({
+        type: 'GET',
+        url: jsonDataURI,
+        dataType: 'json'
+      })
+      .done(function(data){
+	var jsonData = JSON.parse(data);
+	 var nValue = jsonData["keys"]["n"];
+	console.info(jsonData["keys"]["n"] + '' + jsonData["keys"]["kty"]);
+	document.getElementById("n_value").innerHTML = nValue; 
       })
       .fail(function(){
         console.info("Could not fetch " + url);
