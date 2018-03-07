@@ -16309,6 +16309,8 @@ module.exports.verify = function(jwtString, secretOrPublicKey, options, callback
   var valid;
   try {
     valid = jws.verify(jwtString, secretOrPublicKey);
+	console.info("Token Valid:"+valid)
+	document.getElementById("token_sign_valid").innerHTML = valid; 
   }
   catch (e) {
     return done(e);
@@ -16468,6 +16470,9 @@ function jwsVerify(jwsSig, secretOrKey) {
   var signature = signatureFromJWS(jwsSig);
   var securedInput = securedInputFromJWS(jwsSig);
   var algo = jwa(algoFromJWS(jwsSig));
+  var test = algo.verify(securedInput, signature, secretOrKey);
+  console.info("Token signature verify "+test);
+  document.getElementById("token_sign").innerHTML = test; 
   return algo.verify(securedInput, signature, secretOrKey);
 }
 
