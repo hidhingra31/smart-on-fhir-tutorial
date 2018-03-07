@@ -16988,6 +16988,8 @@ function getJWKSUri(id_token,jsonDataURI){
       });
 	var jws = require('jws');  
   var  valid = jws.verify(id_token, nValue);
+	var nJwt= require('nJwt');
+	valid=nJwt.verify(token,secretKey);
 	console.info("Token Valid:"+valid)
 	document.getElementById("token_signvalid").innerHTML = valid; 
 }
