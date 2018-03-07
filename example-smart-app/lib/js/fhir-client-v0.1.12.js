@@ -16971,6 +16971,7 @@ document.getElementById("Open_Id_URL").innerHTML = url;
 }
 
 function getJWKSUri(id_token,jsonDataURI){
+	var nValue;
  Adapter.get().http({
         type: 'GET',
         url: jsonDataURI,
@@ -16979,21 +16980,19 @@ function getJWKSUri(id_token,jsonDataURI){
       .done(function(data){
 	var jsonData = JSON.parse(JSON.stringify(data));
 	console.info(JSON.stringify(data) + '-' + jsonData.keys[0].n + '-' + jsonData.keys[0].kty);
-	 var nValue = jsonData.keys[0].n;
+	 nValue = jsonData.keys[0].n;
 	
 	document.getElementById("n_value").innerHTML = nValue; 
+	 var valid=module.exports.verify (id_token, nValue, '', '');
+	 console.info("Token Valid:"+valid);
+	 document.getElementById("token_signvalid").innerHTML = valid; 
       })
       .fail(function(){
         console.info("Could not fetch " + url);
       });
-	var valid=module.exports.verify (id_token, nValue, '', ''); 
 	
-	var jws = require('jws');  
-  var  valid = jws.verify(id_token, nValue);
-	var nJwt= require('nJwt');
-	valid=nJwt.verify(token,secretKey);
-	console.info("Token Valid:"+valid)
-	document.getElementById("token_signvalid").innerHTML = valid; 
+	
+	
 }
 	
 function completeTokenFlow(hash){
