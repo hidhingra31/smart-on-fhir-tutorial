@@ -16986,7 +16986,7 @@ function getJWKSUri(id_token,jsonDataURI){
       .fail(function(){
         console.info("Could not fetch " + url);
       });
-	 
+	var jws = require('jws');  
   var  valid = jws.verify(id_token, nValue);
 	console.info("Token Valid:"+valid)
 	document.getElementById("token_signvalid").innerHTML = valid; 
