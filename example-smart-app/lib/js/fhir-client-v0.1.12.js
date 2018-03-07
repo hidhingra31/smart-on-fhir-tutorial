@@ -17070,7 +17070,7 @@ function completeCodeFlow(params){
   } else {
     data['client_id'] = state.client.client_id;
   }
-document.getElementById("access_request").innerHTML = data;
+document.getElementById("access_request").innerHTML = JSON.stringify(data);
   console.info('data-->' + JSON.stringify(data));
 	console.info('state.provider.oauth2.token_uri-->' + JSON.stringify(state.provider.oauth2.token_uri));
   Adapter.get().http({
