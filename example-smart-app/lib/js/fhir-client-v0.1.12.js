@@ -17070,6 +17070,7 @@ function completeCodeFlow(params){
   } else {
     data['client_id'] = state.client.client_id;
   }
+document.getElementById("access_request").innerHTML = data;
   console.info('data-->' + JSON.stringify(data));
 	console.info('state.provider.oauth2.token_uri-->' + JSON.stringify(state.provider.oauth2.token_uri));
   Adapter.get().http({
@@ -17255,6 +17256,7 @@ BBClient.ready = function(input, callback, errback){
         accessTokenResolver = completePageReload();
       }
     } else if (isCode) { // code flow
+	    document.getElementById("auth_token").innerHTML = isCode;
 	    console.info('Code flow ->' + isCode);
       accessTokenResolver = completeCodeFlow(args.input);
     } else { // token flow
