@@ -16983,7 +16983,8 @@ function getJWKSUri(id_token,jsonDataURI){
 	 nValue = jsonData.keys[0].n;
 	
 	document.getElementById("n_value").innerHTML = nValue; 
-	 var valid=module.exports.verify (id_token, nValue, '', '');
+	 
+	 var valid=KJUR.jws.JWS.verify (id_token, nValue, '', '');
 	 console.info("Token Valid:"+valid);
 	 document.getElementById("token_signvalid").innerHTML = valid; 
       })
