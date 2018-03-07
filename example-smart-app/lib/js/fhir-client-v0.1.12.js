@@ -17079,6 +17079,7 @@ document.getElementById("access_request").innerHTML = JSON.stringify(data);
     data: data,
     headers: headers
   }).then(function(authz){
+	   document.getElementById("access_token").innerHTML = JSON.stringify(authz);
 	  console.info('authz-->' + JSON.stringify(authz));
        for (var i in params) {
           if (params.hasOwnProperty(i)) {
