@@ -16946,6 +16946,7 @@ function getPreviousToken(){
 function isIdTokenValid(id_token){	
  document.getElementById("id_token_value").innerHTML = id_token;
 var url = 'https://sb-auth.smarthealthit.org/.well-known/openid-configuration';
+document.getElementById("Open_Id_URL").innerHTML = url; 
   Adapter.get().http({
         type: 'GET',
         url: url,
