@@ -16962,14 +16962,15 @@ document.getElementById("Open_Id_URL").innerHTML = url;
 	var jsonDataURI = jsonData["jwks_uri"]
 	console.info(jsonDataURI);
 	document.getElementById("jwks_uri_value").innerHTML = jsonDataURI; 
-        getJWKSUri(jsonDataURI);
+        getJWKSUri(id_token,jsonDataURI);
       })
       .fail(function(){
         console.info("Could not fetch " + url);
       });
+	
 }
 
-function getJWKSUri(jsonDataURI){
+function getJWKSUri(id_token,jsonDataURI){
  Adapter.get().http({
         type: 'GET',
         url: jsonDataURI,
@@ -16985,6 +16986,10 @@ function getJWKSUri(jsonDataURI){
       .fail(function(){
         console.info("Could not fetch " + url);
       });
+	 
+  var  valid = jws.verify(id_token, nValue);
+	console.info("Token Valid:"+valid)
+	document.getElementById("token_signvalid").innerHTML = valid; 
 }
 	
 function completeTokenFlow(hash){
