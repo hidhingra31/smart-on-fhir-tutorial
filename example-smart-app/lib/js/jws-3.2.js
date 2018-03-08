@@ -659,7 +659,7 @@ KJUR.jws.JWS.jwsalg2sigalg = {
  */
 KJUR.jws.JWS.isSafeJSONString = function(s, h, p) {
     var o = null;
-	console.log("string: "+s);
+	console.log("string here: "+s);
     try {
 		o = jsonParse(s);
 	   
