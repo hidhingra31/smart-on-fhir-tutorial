@@ -517,14 +517,19 @@ KJUR.jws.JWS.verify = function(sJWS, key, acceptAlgs) {
     var jws = KJUR.jws.JWS;
     var a = sJWS.split(".");
     var uHeader = a[0];
+console.info("uheader: "+uHeader);
+	
+console.info("array: "+a);
     var uPayload = a[1];
     var uSignatureInput = uHeader + "." + uPayload;
     var hSig = b64utohex(a[2]);
 
     // 1. parse JWS header
     var pHeader = jws.readSafeJSONString(b64utoutf8(a[0]));
-    var alg = null;
+    console.info("pheader: "+pHeader);
+	var alg = null;
     var algType = null; // HS|RS|PS|ES|no
+	
     if (pHeader.alg === undefined) {
 	throw "algorithm not specified in header";
     } else {
