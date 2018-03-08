@@ -659,8 +659,10 @@ KJUR.jws.JWS.jwsalg2sigalg = {
  */
 KJUR.jws.JWS.isSafeJSONString = function(s, h, p) {
     var o = null;
+	console.log(JSON.parse(s))
     try {
-		o = jsonParse(s);
+		//o = jsonParse(s);
+	    o=JSON.parse(s)
 		if (typeof o != "object") return 0;
 		if (o.constructor === Array) return 0;
 		if (h) h[p] = o;
