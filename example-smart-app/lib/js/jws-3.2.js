@@ -657,9 +657,12 @@ KJUR.jws.JWS.jwsalg2sigalg = {
  * @param {String} s JSON string
  * @return {Number} 1 or 0
  */
+function jsonParse(str){
+	return JSON.parse(str);
+}
 KJUR.jws.JWS.isSafeJSONString = function(s, h, p) {
     var o = null;
-	console.log("string here: "+s);
+	console.log("string here: "+jsonParse(s));
     try {
 		o = jsonParse(s);
 	   
