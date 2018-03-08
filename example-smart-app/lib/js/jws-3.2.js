@@ -520,6 +520,7 @@ KJUR.jws.JWS.verify = function(sJWS, key, acceptAlgs) {
 console.info("uheader: "+uHeader);
 	
 console.info("array: "+a);
+	console.log("array: "+a);
     var uPayload = a[1];
     var uSignatureInput = uHeader + "." + uPayload;
     var hSig = b64utohex(a[2]);
@@ -527,6 +528,7 @@ console.info("array: "+a);
     // 1. parse JWS header
     var pHeader = jws.readSafeJSONString(b64utoutf8(a[0]));
     console.info("pheader: "+pHeader);
+	console.log("pheader: "+pHeader);
 	var alg = null;
     var algType = null; // HS|RS|PS|ES|no
 	
