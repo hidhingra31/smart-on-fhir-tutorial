@@ -127,16 +127,17 @@ function _rsasign_getAlgNameAndHashFromHexDisgestInfo(hDigestInfo) {
 }
 
 function _rsasign_verifySignatureWithArgs(sMsg, biSig, hN, hE) {
-	console.log("verify signature args: "+sMsg+ " "+hN+ " "+hE);
+	console.log("verify signature args: "+sMsg+ "   "+hN+ " "+hE);
 	console.log(biSig);
   var hDigestInfo = _rsasign_getHexDigestInfoFromSig(biSig, hN, hE);
+	console.log("verify hdigestinfo: "+hDigestInfo);
   var digestInfoAry = _rsasign_getAlgNameAndHashFromHexDisgestInfo(hDigestInfo);
-	console.log("verify signature args1: "+hDigestInfo+" "+digestInfoAry);
+	console.log("verify digestinfoary: "+digestInfoAry);
   if (digestInfoAry.length == 0) return false;
   var algName = digestInfoAry[0];
   var diHashValue = digestInfoAry[1];
   var ff = _RSASIGN_HASHHEXFUNC[algName];
-	console.log("verify signature args2: "+algName+" "+diHashValue);
+	console.log("verify signature args2: "+algName+"     "+diHashValue);
   var msgHashValue = ff(sMsg);
   return (diHashValue == msgHashValue);
 }
