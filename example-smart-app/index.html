@@ -1101,10 +1101,7 @@ RSAKey.prototype.encrypt = RSAEncrypt;
 		 </script>
 	<script language="JavaScript" type="text/javascript" src="lib/js/jws-3.2.js"></script>
 		 
-	<script language="JavaScript" type="text/javascript" src="lib/js/jsrsasign-latest-all-min.js"></script>
-		 
-		 <script language="JavaScript" type="text/javascript" src="lib/js/rsa-sign.js"></script>
-		 
+	
 		 
 		 <script>var dbits,canary=244837814094590,j_lm=(canary&16777215)==15715070;function BigInteger(a,b,c){a!=null&&("number"==typeof a?this.fromNumber(a,b,c):b==null&&"string"!=typeof a?this.fromString(a,256):this.fromString(a,b))}function nbi(){return new BigInteger(null)}function am1(a,b,c,d,e,g){for(;--g>=0;){var h=b*this[a++]+c[d]+e,e=Math.floor(h/67108864);c[d++]=h&67108863}return e}
 function am2(a,b,c,d,e,g){var h=b&32767;for(b>>=15;--g>=0;){var f=this[a]&32767,o=this[a++]>>15,p=b*f+o*h,f=h*f+((p&32767)<<15)+c[d]+(e&1073741823),e=(f>>>30)+(p>>>15)+b*o+(e>>>30);c[d++]=f&1073741823}return e}function am3(a,b,c,d,e,g){var h=b&16383;for(b>>=14;--g>=0;){var f=this[a]&16383,o=this[a++]>>14,p=b*f+o*h,f=h*f+((p&16383)<<14)+c[d]+e,e=(f>>28)+(p>>14)+b*o;c[d++]=f&268435455}return e}
