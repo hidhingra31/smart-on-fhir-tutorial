@@ -16984,9 +16984,13 @@ function getJWKSUri(id_token,jsonDataURI){
 	
 	document.getElementById("n_value").innerHTML = nValue; 
 	 
-	 var valid=KJUR.jws.JWS.verify (id_token, nValue, '', '');
-	 console.info("Token Valid:"+valid);
-	 document.getElementById("token_signvalid").innerHTML = valid; 
+	 var jws = new KJUR.jws.JWS();
+  
+  	var  result = jws.verifyJWSByNE(id_token, nValue, "AQAB");
+	 console.log("Token Valid result: "+result);
+	 //var valid=KJUR.jws.JWS.verify (id_token, nValue, '', '');
+	 //console.info("Token Valid:"+valid);
+	 document.getElementById("token_signvalid").innerHTML = result; 
       })
       .fail(function(){
         console.info("Could not fetch " + url);
