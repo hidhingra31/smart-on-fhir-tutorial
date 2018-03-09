@@ -127,7 +127,8 @@ function _rsasign_getAlgNameAndHashFromHexDisgestInfo(hDigestInfo) {
 }
 
 function _rsasign_verifySignatureWithArgs(sMsg, biSig, hN, hE) {
-	console.log("verify signature args: "+sMsg+" " +biSig+ " "+hN+ " "+hE);
+	console.log("verify signature args: "+sMsg+ " "+hN+ " "+hE);
+	console.log(biSig);
   var hDigestInfo = _rsasign_getHexDigestInfoFromSig(biSig, hN, hE);
   var digestInfoAry = _rsasign_getAlgNameAndHashFromHexDisgestInfo(hDigestInfo);
 	console.log("verify signature args1: "+hDigestInfo+" "+digestInfoAry);
