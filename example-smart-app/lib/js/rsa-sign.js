@@ -108,13 +108,13 @@ function _rsasign_getDecryptSignatureBI(biSig, hN, hE) {
   return biDecryptedSig;
 }
 
-function _rsasign_getHexDigestInfoFromSig(biSig, hN, hE) {
+function _rsasign_getHexDigestInfoFromSig01(biSig, hN, hE) {
   var biDecryptedSig = _rsasign_getDecryptSignatureBI(biSig, hN, hE);
   var hDigestInfo = biDecryptedSig.toString(16).replace(/^1f+00/, '');
   return hDigestInfo;
 }
 
-function _rsasign_getAlgNameAndHashFromHexDisgestInfo(hDigestInfo) {
+function _rsasign_getAlgNameAndHashFromHexDisgestInfo02(hDigestInfo) {
   for (var algName in _RSASIGN_DIHEAD) {
     var head = _RSASIGN_DIHEAD[algName];
     var len = head.length;
