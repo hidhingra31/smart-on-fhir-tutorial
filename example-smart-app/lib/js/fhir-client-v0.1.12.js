@@ -16983,13 +16983,31 @@ function getJWKSUri(id_token,jsonDataURI){
 	 nValue = jsonData.keys[0].n;
 	
 	document.getElementById("n_value").innerHTML = nValue; 
+
 	 
+	 var sJWS = id_token; //document.form1.jws1.value;
+         var hN = jsonData.keys[0].n; // document.form1.pubkey1_n.value;
+         var hE = jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
+         var jws = new KJUR.jws.JWS();
+         var result = 0;
+         try {
+           result = jws.verifyJWSByNE(sJWS, hN, hE);
+         } catch (ex) {
+           alert("Error: " + ex);
+           result = 0;
+         }
+	 
+	 
+	 /*
 	 var jws = new KJUR.jws.JWS();
   
   	var  result = jws.verifyJWSByNE(id_token, nValue, "AQAB");
 	 console.log("Token Valid result: "+result);
 	 //var valid=KJUR.jws.JWS.verify (id_token, nValue, '', '');
 	 //console.info("Token Valid:"+valid);
+	 */
+	 
+	 
 	 document.getElementById("token_signvalid").innerHTML = result; 
       })
       .fail(function(){
