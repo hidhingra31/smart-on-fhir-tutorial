@@ -16987,7 +16987,7 @@ function getJWKSUri(id_token,jsonDataURI){
 	 
 	 var sJWS = id_token; //document.form1.jws1.value;
          var hN = jsonData.keys[0].n; // document.form1.pubkey1_n.value;
-         var hE = "AQAB"; //jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
+         var hE = jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
          
 	 var jws = new KJUR.jws.JWS();
          var result = 0;
@@ -16998,6 +16998,11 @@ function getJWKSUri(id_token,jsonDataURI){
            result = 0;
          }
 	 
+	   if (result == 1) {
+    alert("JWS signature is *Valid*.");
+  } else {
+    alert("JWS signature is *Invalid*.");
+  }
 	 
 	 /*
 	 var jws = new KJUR.jws.JWS();
