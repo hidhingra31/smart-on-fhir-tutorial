@@ -16987,8 +16987,9 @@ function getJWKSUri(id_token,jsonDataURI){
 	 
 	 var sJWS = id_token; //document.form1.jws1.value;
          var hN = jsonData.keys[0].n; // document.form1.pubkey1_n.value;
-         var hE = jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
-         var jws = new KJUR.jws.JWS();
+         var hE = "AQAB"; //jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
+         
+	 var jws = new KJUR.jws.JWS();
          var result = 0;
          try {
            result = jws.verifyJWSByNE(sJWS, hN, hE);
