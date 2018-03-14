@@ -16980,12 +16980,19 @@ function getJWKSUri(id_token,jsonDataURI){
       .done(function(data){
 
       // VADIM
-      	
+     
+      	var myPublicKey = "-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqt6yOiI/wCoCVlGO0MySsez0VkSqhPvDl3rfabOslx35mYEO+n4ABfIT5Gn2zN+CeIcOZ5ugAXvIIRWv5H55+tzjFazi5IKkOIMCiz5//MtsdxKCqGlZu2zt+BLpqTOAPiflNPpM3RUAlxKAhnYEqNha6+allPnFQupnW/eTYoyuzuedT7dSp90ry0ZcQDimntXWeaSbrYKCj9Rr9W1jn2uTowUuXaScKXTCjAmJVnsD75JNzQfa8DweklTyWQF+Y5Ky039I0VIu+0CIGhXY48GAFe2EFb8VpNhf07DP63p138RWQ1d3KPEM9mYJVpQC68j3wzDQYSljpLf9by7TGwIDAQAB
+-----END PUBLIC KEY-----";
+
 		var jsonData = JSON.parse(JSON.stringify(data));
 		console.info(JSON.stringify(data) + '-' + jsonData.keys[0].n + '-' + jsonData.keys[0].kty);
 	 	nValue = jsonData.keys[0].n;
 	
 		document.getElementById("n_value").innerHTML = nValue; 
+
+		document.getElementById("n_publicKey").innerHTML = myPublicKey; 
+		
 
 	 
 	 	var sJWS = id_token; //document.form1.jws1.value;
