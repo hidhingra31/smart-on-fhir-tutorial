@@ -16978,32 +16978,36 @@ function getJWKSUri(id_token,jsonDataURI){
         dataType: 'json'
       })
       .done(function(data){
-	var jsonData = JSON.parse(JSON.stringify(data));
-	console.info(JSON.stringify(data) + '-' + jsonData.keys[0].n + '-' + jsonData.keys[0].kty);
-	 nValue = jsonData.keys[0].n;
+
+      // VADIM
+      	
+		var jsonData = JSON.parse(JSON.stringify(data));
+		console.info(JSON.stringify(data) + '-' + jsonData.keys[0].n + '-' + jsonData.keys[0].kty);
+	 	nValue = jsonData.keys[0].n;
 	
-	document.getElementById("n_value").innerHTML = nValue; 
+		document.getElementById("n_value").innerHTML = nValue; 
 
 	 
-	 var sJWS = id_token; //document.form1.jws1.value;
-         var hN = jsonData.keys[0].n; // document.form1.pubkey1_n.value;
-         var hE = jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
+	 	var sJWS = id_token; //document.form1.jws1.value;
+        var hN = jsonData.keys[0].n; // document.form1.pubkey1_n.value;
+        var hE = '010001'; //jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
          
-	 var jws = new KJUR.jws.JWS();
-         var result = 0;
-         try {
+	 	var jws = new KJUR.jws.JWS();
+        var result = 0;
+        try {
            result = jws.verifyJWSByNE(sJWS, hN, hE);
-         } catch (ex) {
+        } catch (ex) {
            alert("Error: " + ex);
            result = 0;
-         }
+        }
 	 
 	   if (result == 1) {
-    alert("JWS signature is *Valid*.");
-  } else {
-    alert("JWS signature is *Invalid*.");
-  }
+    		alert("JWS signature is *Valid*.");
+  		} else {
+    		alert("JWS signature is *Invalid*.");
+  		}
 	 
+
 	 /*
 	 var jws = new KJUR.jws.JWS();
   
