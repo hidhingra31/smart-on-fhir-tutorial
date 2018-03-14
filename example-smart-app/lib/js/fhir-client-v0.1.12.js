@@ -16990,11 +16990,44 @@ function getJWKSUri(id_token,jsonDataURI){
 	 	nValue = jsonData.keys[0].n;
 	
 		document.getElementById("n_value").innerHTML = nValue; 
-
 		document.getElementById("n_publicKey").innerHTML = myPublicKey; 
 		
 
-	 
+		var jws = new KJUR.jws.JWS();
+
+		var sJWS = id_token;
+		var sCert = myPublicKey
+
+		var result = 0;
+		try {
+			var cert = new X509();
+			var pubkey = KEYUTIL.getKey(sCert);
+			result = KJUR.jws.JWS.verify(sJWS, pubkey);
+		} catch (ex) {
+			alert("Error: " + ex);
+			result = 0;
+		}
+/*
+		try {
+		document.form1.im_enchead1.value = jws.parsedJWS.headB64U;
+		document.form1.im_encpayload1.value = jws.parsedJWS.payloadB64U;
+		document.form1.im_encsigval1.value = jws.parsedJWS.sigvalB64U;
+		document.form1.im_siginput1.value = jws.parsedJWS.si;
+		document.form1.im_sigval_h1.value = jws.parsedJWS.sigvalH;
+		document.form1.im_head1.value = jws.parsedJWS.headS;
+		document.form1.im_payload1.value = jws.parsedJWS.payloadS;
+		} catch (ex) {}
+*/
+		if (result == 1) {
+		alert("JWS signature is *Valid*.");
+		} else {
+		alert("JWS signature is *Invalid*.");
+		}	 
+
+
+
+/*
+
 	 	var sJWS = id_token; //document.form1.jws1.value;
         var hN = jsonData.keys[0].n; // document.form1.pubkey1_n.value;
         var hE = '010001'; //jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
@@ -17013,17 +17046,8 @@ function getJWKSUri(id_token,jsonDataURI){
   		} else {
     		alert("JWS signature is *Invalid*.");
   		}
-	 
+*/	 
 
-	 /*
-	 var jws = new KJUR.jws.JWS();
-  
-  	var  result = jws.verifyJWSByNE(id_token, nValue, "AQAB");
-	 console.log("Token Valid result: "+result);
-	 //var valid=KJUR.jws.JWS.verify (id_token, nValue, '', '');
-	 //console.info("Token Valid:"+valid);
-	 */
-	 
 	 
 	 document.getElementById("token_signvalid").innerHTML = result; 
       })
