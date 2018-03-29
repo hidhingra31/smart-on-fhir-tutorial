@@ -9,7 +9,7 @@
 
     function onReady(smart)  {
       if (smart.hasOwnProperty('patient')) {
-        console.info('himanshu '+ JSON.stringify(smart));
+        console.log('himanshu '+ JSON.stringify(smart));
         var patient = smart.patient;
         var pt = patient.read();
 		console.info('himanshu patient '+ JSON.stringify(patient)+'-pt-'+ JSON.stringify(pt));
