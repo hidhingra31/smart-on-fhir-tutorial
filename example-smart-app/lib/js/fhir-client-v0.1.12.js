@@ -6,7 +6,6 @@
 		define([], factory);
 	else if(typeof exports === 'object')
 		exports["fhir"] = factory();
-	else
 		root["fhir"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
@@ -854,11 +853,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    exports.Http = function(cfg, adapter){
 	        return function(args){
 	            if(args.debug){
-	                console.log("\nDEBUG (request):", args.method, args.url, args);
+	                console.info("\nDEBUG (request):", args.method, args.url, args);
 	            }
 	            var promise = (args.http || adapter.http  || cfg.http)(args);
 	            if (args.debug && promise && promise.then){
-	                promise.then(function(x){ console.log("\nDEBUG: (responce)", x);});
+	                promise.then(function(x){ console.info("\nDEBUG: (responce)", x);});
 	            }
 	            return promise;
 	        };
@@ -891,14 +890,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return h(args);
 	        }catch(e){
 	            if(args.debug){
-	               console.log("\nDEBUG: (ERROR in middleware)");
-	               console.log(e.message);
-	               console.log(e.stack);
+	               console.info("\nDEBUG: (ERROR in middleware)");
+	               console.info(e.message);
+	               console.info(e.stack);
 	            }
 	            if(!args.defer) {
-	                console.log("\nDEBUG: (ERROR in middleware)");
-	                console.log(e.message);
-	                console.log(e.stack);
+	                console.info("\nDEBUG: (ERROR in middleware)");
+	                console.info(e.message);
+	                console.info(e.stack);
 	                throw new Error("I need adapter.defer");
 	            }
 	            var deff = args.defer();
@@ -1835,13 +1834,13 @@ Buffer.prototype.slice = function (start, end) {
 
 // `get` will be removed in Node 0.13+
 Buffer.prototype.get = function (offset) {
-  console.log('.get() is deprecated. Access using array indexes instead.')
+  console.info('.get() is deprecated. Access using array indexes instead.')
   return this.readUInt8(offset)
 }
 
 // `set` will be removed in Node 0.13+
 Buffer.prototype.set = function (v, offset) {
-  console.log('.set() is deprecated. Access using array indexes instead.')
+  console.info('.set() is deprecated. Access using array indexes instead.')
   return this.writeUInt8(v, offset)
 }
 
@@ -3453,7 +3452,7 @@ module.exports = function (Buffer, Hash) {
   Sha1.prototype._hash = function () {
     if(POOL.length < 100) POOL.push(this)
     var H = new Buffer(20)
-    //console.log(this._a|0, this._b|0, this._c|0, this._d|0, this._e|0)
+    //console.info(this._a|0, this._b|0, this._c|0, this._d|0, this._e|0)
     H.writeInt32BE(this._a|0, A)
     H.writeInt32BE(this._b|0, B)
     H.writeInt32BE(this._c|0, C)
@@ -6978,9 +6977,9 @@ function timestamp() {
 }
 
 
-// log is just a thin wrapper to console.log that prepends a timestamp
+// log is just a thin wrapper to console.info that prepends a timestamp
 exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+  console.info('%s - %s', timestamp(), exports.format.apply(exports, arguments));
 };
 
 
@@ -16310,6 +16309,8 @@ module.exports.verify = function(jwtString, secretOrPublicKey, options, callback
   var valid;
   try {
     valid = jws.verify(jwtString, secretOrPublicKey);
+	console.info("Token Valid:"+valid)
+	document.getElementById("token_sign_valid").innerHTML = valid; 
   }
   catch (e) {
     return done(e);
@@ -16469,6 +16470,9 @@ function jwsVerify(jwsSig, secretOrKey) {
   var signature = signatureFromJWS(jwsSig);
   var securedInput = securedInputFromJWS(jwsSig);
   var algo = jwa(algoFromJWS(jwsSig));
+  var test = algo.verify(securedInput, signature, secretOrKey);
+  console.info("Token signature verify "+test);
+  document.getElementById("token_sign").innerHTML = test; 
   return algo.verify(securedInput, signature, secretOrKey);
 }
 
@@ -16520,7 +16524,7 @@ SignStream.prototype.sign = function sign() {
   this.readable = false;
   return signature;
 };
-
+	
 function VerifyStream(opts) {
   opts = opts || {};
   var secretOrKey = opts.secret||opts.publicKey||opts.key;
@@ -16944,6 +16948,117 @@ function getPreviousToken(){
   }
 }
 
+function isIdTokenValid(id_token){	
+ document.getElementById("id_token_value").innerHTML = id_token;
+var url = 'https://sb-auth.smarthealthit.org/.well-known/openid-configuration';
+document.getElementById("Open_Id_URL").innerHTML = url; 
+  Adapter.get().http({
+        type: 'GET',
+        url: url,
+        dataType: 'json'
+      })
+      .done(function(data){
+	var jsonData = JSON.parse(JSON.stringify(data));
+	var jsonDataURI = jsonData["jwks_uri"]
+	console.info(jsonDataURI);
+	document.getElementById("jwks_uri_value").innerHTML = jsonDataURI; 
+        getJWKSUri(id_token,jsonDataURI);
+      })
+      .fail(function(){
+        console.info("Could not fetch " + url);
+      });
+	
+}
+
+function getJWKSUri(id_token,jsonDataURI){
+	var nValue;
+ Adapter.get().http({
+        type: 'GET',
+        url: jsonDataURI,
+        dataType: 'json'
+      })
+      .done(function(data){
+
+      // VADIM
+     
+      	var myPublicKey = "-----BEGIN PUBLIC KEY-----\n"
+			myPublicKey += "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqt6yOiI/wCoCVlGO0MySsez0VkSqhPvDl3rfabOslx35mYEO+n4ABfIT5Gn2zN+CeIcOZ5ugAXvIIRWv5H55+tzjFazi5IKkOIMCiz5//MtsdxKCqGlZu2zt+BLpqTOAPiflNPpM3RUAlxKAhnYEqNha6+allPnFQupnW/eTYoyuzuedT7dSp90ry0ZcQDimntXWeaSbrYKCj9Rr9W1jn2uTowUuXaScKXTCjAmJVnsD75JNzQfa8DweklTyWQF+Y5Ky039I0VIu+0CIGhXY48GAFe2EFb8VpNhf07DP63p138RWQ1d3KPEM9mYJVpQC68j3wzDQYSljpLf9by7TGwIDAQAB\n"
+			myPublicKey += "-----END PUBLIC KEY-----";
+
+		var jsonData = JSON.parse(JSON.stringify(data));
+		console.info(JSON.stringify(data) + '-' + jsonData.keys[0].n + '-' + jsonData.keys[0].kty);
+	 	nValue = jsonData.keys[0].n;
+	
+		document.getElementById("n_value").innerHTML = nValue; 
+		document.getElementById("n_publicKey").innerHTML = myPublicKey; 
+		
+
+		var jws = new KJUR.jws.JWS();
+
+		var sJWS = id_token;
+		var sCert = myPublicKey
+
+		var result = 0;
+		try {
+			var cert = new X509();
+			var pubkey = KEYUTIL.getKey(sCert);
+			result = KJUR.jws.JWS.verify(sJWS, pubkey);
+		} catch (ex) {
+			alert("Error: " + ex);
+			result = 0;
+		}
+/*
+		try {
+		document.form1.im_enchead1.value = jws.parsedJWS.headB64U;
+		document.form1.im_encpayload1.value = jws.parsedJWS.payloadB64U;
+		document.form1.im_encsigval1.value = jws.parsedJWS.sigvalB64U;
+		document.form1.im_siginput1.value = jws.parsedJWS.si;
+		document.form1.im_sigval_h1.value = jws.parsedJWS.sigvalH;
+		document.form1.im_head1.value = jws.parsedJWS.headS;
+		document.form1.im_payload1.value = jws.parsedJWS.payloadS;
+		} catch (ex) {}
+*/
+		if (result == 1) {
+		alert("JWS signature is *Valid*.");
+		} else {
+		alert("JWS signature is *Invalid*.");
+		}	 
+
+
+
+/*
+
+	 	var sJWS = id_token; //document.form1.jws1.value;
+        var hN = jsonData.keys[0].n; // document.form1.pubkey1_n.value;
+        var hE = '010001'; //jsonData.keys[0].kty;// document.form1.pubkey1_e.value;
+         
+	 	var jws = new KJUR.jws.JWS();
+        var result = 0;
+        try {
+           result = jws.verifyJWSByNE(sJWS, hN, hE);
+        } catch (ex) {
+           alert("Error: " + ex);
+           result = 0;
+        }
+	 
+	   if (result == 1) {
+    		alert("JWS signature is *Valid*.");
+  		} else {
+    		alert("JWS signature is *Invalid*.");
+  		}
+*/	 
+
+	 
+	 document.getElementById("token_signvalid").innerHTML = result; 
+      })
+      .fail(function(){
+        console.info("Could not fetch " + url);
+      });
+	
+	
+	
+}
+	
 function completeTokenFlow(hash){
   if (!hash){
     hash = window.location.hash;
@@ -16968,6 +17083,7 @@ function completeTokenFlow(hash){
 }
 
 function completeCodeFlow(params){
+	console.info('completeCodeFlow-->' + JSON.stringify(params));
   if (!params){
     params = {
       code: urlParam('code'),
@@ -16977,6 +17093,7 @@ function completeCodeFlow(params){
   
   var ret = Adapter.get().defer();
   var state = JSON.parse(sessionStorage[params.state]);
+	console.log('HD state is'+JSON.stringify(state));
 
   if (window.history.replaceState && BBClient.settings.replaceBrowserHistory){
     window.history.replaceState({}, "", window.location.toString().replace(window.location.search, ""));
@@ -17017,13 +17134,17 @@ function completeCodeFlow(params){
   } else {
     data['client_id'] = state.client.client_id;
   }
-
+document.getElementById("access_request").innerHTML = JSON.stringify(data);
+  console.info('data-->' + JSON.stringify(data));
+	console.info('state.provider.oauth2.token_uri-->' + JSON.stringify(state.provider.oauth2.token_uri));
   Adapter.get().http({
     method: 'POST',
     url: state.provider.oauth2.token_uri,
     data: data,
     headers: headers
   }).then(function(authz){
+	   document.getElementById("access_token").innerHTML = JSON.stringify(authz);
+	  console.info('authz-->' + JSON.stringify(authz));
        for (var i in params) {
           if (params.hasOwnProperty(i)) {
              authz[i] = params[i];
@@ -17031,7 +17152,7 @@ function completeCodeFlow(params){
        }
        ret.resolve(authz);
   }, function(){
-    console.log("failed to exchange code for access_token", arguments);
+    console.info("failed to exchange code for access_token", arguments);
     ret.reject();
   });
 
@@ -17165,7 +17286,8 @@ function isFakeOAuthToken(){
 BBClient.ready = function(input, callback, errback){
 
   var args = readyArgs.apply(this, arguments);
-
+  console.info("Ready -->" + JSON.stringify(args));
+	
   // decide between token flow (implicit grant) and code flow (authorization code grant)
   var isCode = urlParam('code') || (args.input && args.input.code);
 
@@ -17187,6 +17309,7 @@ BBClient.ready = function(input, callback, errback){
     if (validTokenResponse()) { // we're reloading after successful completion
       // Check if 2 minutes from access token expiration timestamp
       var tokenResponse = getPreviousToken();
+	    console.info("tokenResponse -->" + tokenResponse);
       var payloadCheck = jwt.decode(tokenResponse.access_token);
       var nearExpTime = Math.floor(Date.now() / 1000) >= (payloadCheck['exp'] - 120);
 
@@ -17198,13 +17321,16 @@ BBClient.ready = function(input, callback, errback){
         accessTokenResolver = completePageReload();
       }
     } else if (isCode) { // code flow
+	    document.getElementById("auth_token").innerHTML = isCode;
+	    console.info('Code flow ->' + isCode);
       accessTokenResolver = completeCodeFlow(args.input);
     } else { // token flow
+	    console.info('Token flow ->' + isCode);
       accessTokenResolver = completeTokenFlow(args.input);
     }
   }
   accessTokenResolver.done(function(tokenResponse){
-
+	  console.info("tokenResponse ->>-" + JSON.stringify(tokenResponse));
     if (!tokenResponse || !tokenResponse.state) {
       return args.errback("No 'state' parameter found in authorization response.");
     }
@@ -17231,6 +17357,8 @@ BBClient.ready = function(input, callback, errback){
     if (tokenResponse.id_token) {
         var id_token = tokenResponse.id_token;
         var payload = jwt.decode(id_token);
+	    var isSuccess = isIdTokenValid(id_token);
+	    
         fhirClientParams["userId"] = payload["profile"]; 
     }
 
@@ -17338,10 +17466,10 @@ function bypassOAuth(fhirServiceUrl, callback){
 }
 
 BBClient.authorize = function(params, errback){
-
+	console.info("inside authorize abhishek" + JSON.stringify(params));
   if (!errback){
     errback = function(){
-        console.log("Failed to discover authorization URL given", params);
+        console.info("Failed to discover authorization URL given", params);
     };
   }
   
@@ -17410,7 +17538,7 @@ BBClient.authorize = function(params, errback){
     
     sessionStorage[state] = JSON.stringify(params);
 
-    console.log("sending client reg", params.client);
+    console.info("sending client reg", params.client);
 
     var redirect_to=params.provider.oauth2.authorize_uri + "?" + 
       "client_id="+encodeURIComponent(client.client_id)+"&"+
@@ -17423,13 +17551,14 @@ BBClient.authorize = function(params, errback){
     if (typeof client.launch !== 'undefined' && client.launch) {
        redirect_to += "&launch="+encodeURIComponent(client.launch);
     }
-
+     console.info("abhishekkkkkkkkkkkkkkkkkkkk" + redirect_to);
+	  
     window.location.href = redirect_to;
   }, errback);
 };
 
 BBClient.resolveAuthType = function (fhirServiceUrl, callback, errback) {
-
+     console.info("fhirServiceUrl -->" + fhirServiceUrl);
       Adapter.get().http({
          method: "GET",
          url: stripTrailingSlash(fhirServiceUrl) + "/metadata"
@@ -17464,6 +17593,7 @@ Object.keys(clientUtils).forEach(function(k){
 });
 
 function FhirClient(p) {
+	console.info("FhirClient -->" + JSON.stringify(p));
   // p.serviceUrl
   // p.auth {
     //    type: 'none' | 'basic' | 'bearer'
